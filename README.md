@@ -11,5 +11,9 @@ module.exports = predicate;
 2. Run `node index.js ./path/to/your/project --type=<ts|js> --out=<report-file-name>`
 3. See the `report` file
 
+## Limitations
+1. Works on typescript files
+2. Supports modules and classes 
+
 ## Licence
 [MIT](./LICENCE).
