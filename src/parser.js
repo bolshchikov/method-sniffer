@@ -48,7 +48,7 @@ exports.parseFile = (filePath, predicate) => {
 };
 
 exports.parseFolder = (path, fileType, predicate) => {
-  return readdir(path, [`!*.${fileType}`, `*.spec.${fileType}`, `*.d.ts`])
+  return readdir(path, [`!*.${fileType}`, `*.spec.${fileType}`, `*.driver.${fileType}`, `*.d.ts`])
     .then(files => {
       const parseFiles = files.map(filePath => this.parseFile(filePath, predicate));
       return Promise.all(parseFiles);
