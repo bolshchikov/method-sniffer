@@ -10,10 +10,11 @@ const utils = require('./src/utils');
 
 const path = argv._[0];
 const fileType = argv.type || 'ts';
+const outputFileName = argv.out || 'report';
 
 if (utils.isFile(path)) {
-  parseFile(path, predicate).then(toFile);
+  parseFile(path, predicate).then(content => toFile(content, outputFileName));
 } else {
-  parseFolder(path, fileType, predicate).then(toFile);
+  parseFolder(path, fileType, predicate).then(content => toFile(content, outputFileName));
 }
 

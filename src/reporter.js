@@ -2,17 +2,24 @@
 const fs = require('fs');
 const rimraf = require('rimraf');
 
-const REPORT_FOLDER_NAME = 'report';
-const REPORT_FOLDER_PATH = `./${REPORT_FOLDER_NAME}`;
+const REPORT_FOLDER_NAME = 'reports';
+const REPORT_FOLDER_PATH = `./${REPORT_FOLDER_NAME}/`;
 
-const removeReportFolder = () => {
+const removeReportFile = (fileName) => {
   return new Promise((resolve, reject) => {
-    rimraf(REPORT_FOLDER_PATH, resolve);
+    rimraf(REPORT_FOLDER_PATH + fileName, resolve);
   });
 };
 
-exports.toFile = (context) => {
-  removeReportFolder().then(() => {
-    fs.writeFile(REPORT_FOLDER_PATH, context.join('\n'));
+const createReportFolder = () => {
+  if (!fs.existsSync(REPORT_FOLDER_PATH)) {
+    fs.mkdirSync(REPORT_FOLDER_PATH);
+  }
+}
+
+exports.toFile = (context, fileName) => {
+  createReportFolder();
+  removeReportFile(fileName).then(() => {
+    fs.writeFile(REPORT_FOLDER_PATH + fileName, context.join('\n'));
   });
 };
