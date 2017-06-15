@@ -5,10 +5,11 @@
 1. Create predicate file
 ```js
 // predicate.js
-export const predicate = (methodText) => methodText.indexOf('$http');
+const predicate = (methodText) => methodText.indexOf('$http');
+module.exports = predicate;
 ```
-2. Run `sniff ./path/to/your/project`
-3. See the `result` file
+2. Run `node index.js ./path/to/your/project`
+3. See the `report` file
 
 ## Licence
 [MIT](./LICENCE).
