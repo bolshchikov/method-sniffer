@@ -18,6 +18,8 @@ const extractRelevantClassMethods = (classDefinition, predicate) => {
 const extractRelevantMethods = (fileObject, predicate) => {
   return fileObject.statements.reduce((acc, node) => {
     switch (node.kind) {
+      case ts.SyntaxKind.ModuleDeclaration:
+        return acc.concat(extractRelevantMethods(node.body, predicate));
       case ts.SyntaxKind.ClassDeclaration:
         return acc.concat(extractRelevantClassMethods(node, predicate));
       default:
@@ -46,7 +48,7 @@ exports.parseFile = (filePath, predicate) => {
 };
 
 exports.parseFolder = (path, fileType, predicate) => {
-  return readdir(path, [`!*.${fileType}`])
+  return readdir(path, [`!*.${fileType}`, `*.spec.${fileType}`, `*.d.ts`])
     .then(files => {
       const parseFiles = files.map(filePath => this.parseFile(filePath, predicate));
       return Promise.all(parseFiles);
