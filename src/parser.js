@@ -1,8 +1,10 @@
 // @ts-check
 
-const ts = require('typescript');
 const fs = require('fs');
+const ts = require('typescript');
 const curry = require('lodash/curry');
+const flatten = require('lodash/flatten');
+const readdir = require('recursive-readdir');
 
 const shouldAnalyze = (predicate, sourceFile, kind) => predicate(kind.getText(sourceFile));
 
@@ -34,9 +36,22 @@ exports.parseFile = (filePath, predicate) => {
 
   const shouldAnalyzeKind = curry(shouldAnalyze)(predicate)(sourceFile);
 
-  if (shouldAnalyzeKind(sourceFile)) {
-    return extractRelevantMethods(sourceFile, shouldAnalyzeKind);
-  } else {
-    console.log('File does not meet the predicate function');
-  }
+  return new Promise((resolve, reject) => {
+    if (shouldAnalyzeKind(sourceFile)) {
+      resolve(extractRelevantMethods(sourceFile, shouldAnalyzeKind));
+    } else {
+      resolve([]);
+    }
+  });
 };
+
+exports.parseFolder = (path, fileType, predicate) => {
+  return readdir(path, [`!*.${fileType}`])
+    .then(files => {
+      const parseFiles = files.map(filePath => this.parseFile(filePath, predicate));
+      return Promise.all(parseFiles);
+    })
+    .then((values) => {
+      return flatten(values);
+    });
+}

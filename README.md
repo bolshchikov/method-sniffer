@@ -8,7 +8,7 @@
 const predicate = (methodText) => methodText.indexOf('$http');
 module.exports = predicate;
 ```
-2. Run `node index.js ./path/to/your/project`
+2. Run `node index.js ./path/to/your/project --type=ts`
 3. See the `report` file
 
 ## Licence
