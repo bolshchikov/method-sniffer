@@ -8,7 +8,7 @@
 const predicate = (methodText) => methodText.indexOf('$http');
 module.exports = predicate;
 ```
-2. Run `node index.js ./path/to/your/project --type=<ts|js> --out=<report-file-name>`
+2. Run `node sniff.js ./path/to/your/project --type=<ts|js> --out=<report-file-name>`
 3. See the `report` file
 
 ## Limitations

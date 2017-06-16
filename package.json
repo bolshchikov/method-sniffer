@@ -4,12 +4,13 @@
   "description": "Parses files the given project, and give the predicate function, returns list of methods.",
   "main": "index.js",
   "bin": {
-    "sniff": "index.js"
+    "sniff": "sniff.js"
   },
   "repository": "https://github.com/bolshchikov/method-sniffer",
   "author": "Sergey Bolshchikov <sergey@bolshchikov.net>",
   "license": "MIT",
   "dependencies": {
+    "console.table": "^0.8.0",
     "lodash": "^4.17.4",
     "recursive-readdir": "^2.2.1",
     "rimraf": "^2.6.1",
