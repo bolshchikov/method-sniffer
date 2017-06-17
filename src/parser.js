@@ -53,7 +53,5 @@ exports.parseFolder = (path, fileType, predicate) => {
       const parseFiles = files.map(filePath => this.parseFile(filePath, predicate));
       return Promise.all(parseFiles);
     })
-    .then((values) => {
-      return flatten(values);
-    });
+    .then((values) => flatten(values));
 }

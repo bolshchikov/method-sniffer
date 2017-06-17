@@ -1,9 +1,8 @@
 //@ts-check
+
 const fs = require('fs');
 const rimraf = require('rimraf');
-
-const REPORT_FOLDER_NAME = 'reports';
-const REPORT_FOLDER_PATH = `./${REPORT_FOLDER_NAME}/`;
+const REPORT_FOLDER_PATH = require('./consts').REPORT_FOLDER_PATH;
 
 const removeReportFile = (fileName) => {
   return new Promise((resolve, reject) => {

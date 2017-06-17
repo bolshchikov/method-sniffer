@@ -1,10 +1,10 @@
 // @ts-check
+
 const fs = require('fs');
 const flatten = require('lodash').flatten;
 const readdir = require('recursive-readdir');
 const kebabCase = require('lodash').kebabCase;
-
-const REPORTS_PATH = `./reports`;
+const REPORT_FOLDER_PATH = require('./consts').REPORT_FOLDER_PATH;
 
 const calculateOccurrences = (acc, curr) => {
   if (acc[curr] === undefined) {
@@ -15,9 +15,7 @@ const calculateOccurrences = (acc, curr) => {
   return acc;
 };
 
-const extractFirstMethodWord = (word) => {
-  return kebabCase(word).split('-').shift();
-};
+const extractFirstMethodWord = (word) => kebabCase(word).split('-').shift();
 
 const readFile = (path) => {
   return new Promise((resolve, reject) => {
@@ -26,15 +24,17 @@ const readFile = (path) => {
 };
 
 const readFiles = () => {
-  return readdir(REPORTS_PATH)
+  return readdir(REPORT_FOLDER_PATH)
     .then(files => Promise.all(files.map(path => readFile(path))))
     .then(content => content.map(file => file.split('\n')));
 };
 
-const methodNamesProcessor = () => readFiles()
-  .then((content) => flatten(content)
-    .map(extractFirstMethodWord)
-    .reduce(calculateOccurrences, {}));
+const methodNamesProcessor = () => {
+  return readFiles()
+    .then((content) => flatten(content)
+      .map(extractFirstMethodWord)
+      .reduce(calculateOccurrences, {}))
+};
 
 module.exports = {
   methodNames: methodNamesProcessor
